@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartHR | Dashboard</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            color: #ffffff;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(0, 153, 255, 0.25),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(90, 50, 255, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #07152f,
+                    #020617
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        /* ==============================
+           ANIMATED BACKGROUND
+        ============================== */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            border-radius: 50%;
+
+            background: #008cff;
+
+            filter: blur(120px);
+
+            opacity: 0.18;
+
+            top: -200px;
+            left: -150px;
+
+            z-index: -1;
+
+            animation: floating 9s ease-in-out infinite alternate;
+        }
+
+
+        body::after {
+
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            border-radius: 50%;
+
+            background: #633cff;
+
+            filter: blur(120px);
+
+            opacity: 0.18;
+
+            right: -150px;
+            bottom: -200px;
+
+            z-index: -1;
+
+            animation:
+                floating 10s ease-in-out
+                infinite alternate-reverse;
+        }
+
+
+        @keyframes floating {
+
+            from {
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            to {
+                transform:
+                    translate(100px, 60px)
+                    scale(1.25);
+            }
+        }
+
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 18px 35px;
+
+            background:
+                rgba(3, 12, 30, 0.82);
+
+            backdrop-filter: blur(20px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.3);
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .logo-icon {
+
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 14px;
+
+            font-size: 23px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(37,99,235,0.4);
+
+            animation:
+                logoFloat 3s ease-in-out
+                infinite alternate;
+        }
+
+
+        @keyframes logoFloat {
+
+            from {
+                transform:
+                    translateY(0)
+                    rotateX(0deg);
+            }
+
+            to {
+                transform:
+                    translateY(-4px)
+                    rotateX(12deg);
+            }
+        }
+
+
+        .logo h1 {
+
+            font-size: 23px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .logo span {
+
+            color: #60a5fa;
+        }
+
+
+        .nav-buttons {
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .nav-buttons a {
+
+            text-decoration: none;
+
+            color: white;
+
+            padding: 11px 18px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        .add-btn {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(37,99,235,0.3);
+        }
+
+
+        .logout-btn {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ef4444,
+                    #b91c1c
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(239,68,68,0.25);
+        }
+
+
+        .nav-buttons a:hover {
+
+            transform:
+                translateY(-4px)
+                scale(1.04);
+
+            box-shadow:
+                0 15px 30px
+                rgba(0,0,0,0.4);
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .container {
+
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 45px 30px;
+        }
+
+
+        .welcome {
+
+            margin-bottom: 35px;
+
+            animation:
+                welcomeIn 0.8s ease;
+        }
+
+
+        @keyframes welcomeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-30px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .welcome h2 {
+
+            font-size: 35px;
+
+            margin-bottom: 8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #60a5fa,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .welcome p {
+
+            color: #94a3b8;
+
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           CARDS
+        ============================== */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 35px;
+
+            perspective: 1200px;
+        }
+
+
+        .card {
+
+            position: relative;
+
+            padding: 28px;
+
+            min-height: 205px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.12),
+                    rgba(255,255,255,0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+
+                0 20px 50px
+                rgba(0,0,0,0.3),
+
+                inset 0 1px 1px
+                rgba(255,255,255,0.12);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+
+            animation:
+                cardAppear 0.8s ease backwards;
+        }
+
+
+        .card:nth-child(2) {
+
+            animation-delay:
+                0.15s;
+        }
+
+
+        .card:nth-child(3) {
+
+            animation-delay:
+                0.3s;
+        }
+
+
+        @keyframes cardAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(50px)
+                    rotateX(15deg);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    rotateX(0);
+            }
+        }
+
+
+        .card:hover {
+
+            transform:
+                translateY(-12px)
+                rotateX(5deg)
+                rotateY(-5deg);
+
+            box-shadow:
+
+                0 30px 65px
+                rgba(0,0,0,0.4),
+
+                0 0 35px
+                rgba(59,130,246,0.18);
+        }
+
+
+        .card-icon {
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 15px;
+
+            font-size: 25px;
+
+            margin-bottom: 17px;
+
+            background:
+                rgba(59,130,246,0.15);
+
+            border:
+                1px solid
+                rgba(96,165,250,0.2);
+
+            box-shadow:
+                0 10px 25px
+                rgba(37,99,235,0.15);
+
+            transition: 0.4s;
+        }
+
+
+        .card:hover .card-icon {
+
+            transform:
+                translateY(-5px)
+                rotateY(15deg)
+                scale(1.08);
+        }
+
+
+        .card h3 {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .card p {
+
+            font-size: 38px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #60a5fa
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .card-subtitle {
+
+            display: block;
+
+            margin-top: 9px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        .payroll-card {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(34,197,94,0.13),
+                    rgba(255,255,255,0.035)
+                );
+        }
+
+
+        .payroll-card p {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #4ade80
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .new-card {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(139,92,246,0.13),
+                    rgba(255,255,255,0.035)
+                );
+        }
+
+
+        .new-card p {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #a78bfa
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        /* ==============================
+           TABLE
+        ============================== */
+
+        .table-container {
+
+            background:
+                rgba(255,255,255,0.065);
+
+            backdrop-filter:
+                blur(20px);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            border-radius:
+                22px;
+
+            padding:
+                25px;
+
+            box-shadow:
+
+                0 25px 60px
+                rgba(0,0,0,0.3),
+
+                inset 0 1px 1px
+                rgba(255,255,255,0.08);
+
+            animation:
+                tableAppear 1s ease;
+        }
+
+
+        @keyframes tableAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(35px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .table-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin-bottom:
+                22px;
+        }
+
+
+        .table-header h2 {
+
+            font-size:
+                22px;
+        }
+
+
+        .table-header span {
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            letter-spacing:
+                1px;
+        }
+
+
+        table {
+
+            width:
+                100%;
+
+            border-collapse:
+                separate;
+
+            border-spacing:
+                0 8px;
+        }
+
+
+        th {
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.8px;
+
+            text-align:
+                left;
+
+            padding:
+                12px;
+        }
+
+
+        td {
+
+            padding:
+                15px 12px;
+
+            color:
+                #dbeafe;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.05);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.05);
+        }
+
+
+        td:first-child {
+
+            border-radius:
+                12px 0 0 12px;
+        }
+
+
+        td:last-child {
+
+            border-radius:
+                0 12px 12px 0;
+        }
+
+
+        tbody tr {
+
+            transition:
+                0.3s ease;
+        }
+
+
+        tbody tr:hover {
+
+            transform:
+                scale(1.01)
+                translateX(3px);
+        }
+
+
+        tbody tr:hover td {
+
+            background:
+                rgba(59,130,246,0.10);
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .active,
+        .inactive {
+
+            display:
+                inline-block;
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                20px;
+
+            font-size:
+                12px;
+        }
+
+
+        .active {
+
+            color:
+                #4ade80;
+
+            background:
+                rgba(34,197,94,0.12);
+
+            border:
+                1px solid
+                rgba(34,197,94,0.2);
+        }
+
+
+        .inactive {
+
+            color:
+                #f87171;
+
+            background:
+                rgba(239,68,68,0.12);
+
+            border:
+                1px solid
+                rgba(239,68,68,0.2);
+        }
+
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        .edit-btn,
+        .delete-btn {
+
+            display:
+                inline-block;
+
+            text-decoration:
+                none;
+
+            padding:
+                7px 11px;
+
+            border-radius:
+                8px;
+
+            color:
+                white;
+
+            font-size:
+                12px;
+
+            font-weight:
+                600;
+
+            margin-right:
+                4px;
+
+            transition:
+                0.25s ease;
+        }
+
+
+        .edit-btn {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+        }
+
+
+        .delete-btn {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ef4444,
+                    #b91c1c
+                );
+        }
+
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(0,0,0,0.3);
+        }
+
+
+        .view-only {
+
+            color:
+                #94a3b8;
+
+            font-size:
+                12px;
+
+            font-weight:
+                600;
+
+            padding:
+                7px 10px;
+
+            background:
+                rgba(148,163,184,0.08);
+
+            border-radius:
+                8px;
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .footer {
+
+            text-align:
+                center;
+
+            padding:
+                35px 10px 20px;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+        }
+
+
+        .footer span {
+
+            color:
+                #60a5fa;
+        }
+
+
+        /* ==============================
+           SCROLLBAR
+        ============================== */
+
+        ::-webkit-scrollbar {
+
+            width:
+                8px;
+
+            height:
+                8px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background:
+                #020617;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background:
+                #334155;
+
+            border-radius:
+                10px;
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .cards {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .navbar {
+
+                padding:
+                    15px 20px;
+            }
+
+
+            .container {
+
+                padding:
+                    30px 15px;
+            }
+
+
+            .welcome h2 {
+
+                font-size:
+                    27px;
+            }
+
+
+            .table-container {
+
+                overflow-x:
+                    auto;
+            }
+
+
+            table {
+
+                min-width:
+                    1000px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                flex-direction:
+                    column;
+
+                gap:
+                    15px;
+            }
+
+
+            .nav-buttons {
+
+                width:
+                    100%;
+
+                justify-content:
+                    center;
+            }
+
+
+            .nav-buttons a {
+
+                padding:
+                    9px 13px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <h1>
+                Smart<span>HR</span>
+            </h1>
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            {% if user.is_staff or user.is_superuser %}
+
+                <a href="{% url 'add_employee' %}"
+                   class="add-btn">
+
+                    + Add Employee
+
+                </a>
+
+            {% endif %}
+
+
+            <a href="{% url 'logout' %}"
+               class="logout-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         MAIN
+    ============================== -->
+
+    <div class="container">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h2>
+                Employee Management System
+            </h2>
+
+            <p>
+                Manage your employees and HR information.
+            </p>
+
+        </div>
+
+
+        <!-- ==============================
+             STATISTICS
+        ============================== -->
+
+        <div class="cards">
+
+
+            <!-- TOTAL EMPLOYEES -->
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👥
+                </div>
+
+                <h3>
+                    Total Employees
+                </h3>
+
+                <p>
+                    {{ total_employees }}
+                </p>
+
+                <span class="card-subtitle">
+                    Employees in database
+                </span>
+
+            </div>
+
+
+            <!-- TOTAL PAYROLL -->
+
+            <div class="card payroll-card">
+
+                <div class="card-icon">
+                    💰
+                </div>
+
+                <h3>
+                    Total Payroll
+                </h3>
+
+                <p>
+                    ₹{{ total_payroll }}
+                </p>
+
+                <span class="card-subtitle">
+                    Combined employee salary
+                </span>
+
+            </div>
+
+
+            <!-- NEW THIS MONTH -->
+
+            <div class="card new-card">
+
+                <div class="card-icon">
+                    ✨
+                </div>
+
+                <h3>
+                    New This Month
+                </h3>
+
+                <p>
+                    {{ new_this_month }}
+                </p>
+
+                <span class="card-subtitle">
+                    Employees joined this month
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             EMPLOYEE TABLE
+        ============================== -->
+
+        <div class="table-container">
+
+
+            <div class="table-header">
+
+                <h2>
+                    👥 Employee List
+                </h2>
+
+                <span>
+                    SMARTHR DATABASE • LIVE
+                </span>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Employee ID</th>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Department</th>
+
+                        <th>Designation</th>
+
+                        <th>Joining Date</th>
+
+                        <th>Salary</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for employee in employees %}
+
+                    <tr>
+
+                        <td>
+                            {{ employee.employee_id }}
+                        </td>
+
+
+                        <td>
+                            {{ employee.name }}
+                        </td>
+
+
+                        <td>
+                            {{ employee.email }}
+                        </td>
+
+
+                        <td>
+                            {{ employee.department }}
+                        </td>
+
+
+                        <td>
+                            {{ employee.designation }}
+                        </td>
+
+
+                        <td>
+                            {{ employee.joining_date }}
+                        </td>
+
+
+                        <td>
+                            ₹{{ employee.salary }}
+                        </td>
+
+
+                        <td>
+
+                            {% if employee.is_active %}
+
+                                <span class="active">
+                                    ● Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="inactive">
+                                    ● Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if user.is_staff or user.is_superuser %}
+
+                                <a
+                                    href="{% url 'edit_employee' employee.employee_id %}"
+                                    class="edit-btn">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a
+                                    href="{% url 'delete_employee' employee.employee_id %}"
+                                    class="delete-btn">
+
+                                    Delete
+
+                                </a>
+
+                            {% else %}
+
+                                <span class="view-only">
+                                    View Only
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="9">
+
+                            No employees found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            © 2026
+            <span>SmartHR</span>
+            • Employee Management System
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
